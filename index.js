@@ -3,17 +3,33 @@ const dotenv = require('dotenv');
 
 const connectToDatabase = require('./src/database/mongoose.database.js');
 
+const TaskModel = require('./src/models/task.model.js');
+
 dotenv.config();
 
 connectToDatabase();
 
 const app = express();
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    const tasks = [{ description: 'Estudar programação', isCompleted: false }];
-    res.status(200).send(tasks);
+app.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await TaskModel.find({});
+        res.status(200).send(tasks);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-app.listen(8000, () => console.log('Listen on port 8000'));
+app.post('/tasks', async (req, res) => {
+    try {
+        const newTask = new TaskModel(req.body);
 
-//WTNPmUmb3soScLuf
+        await newTask.save();
+
+        res.status(201).send(newTask);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+app.listen(8000, () => console.log('Listen on port 8000'));
