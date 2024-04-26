@@ -5,7 +5,7 @@ const connectToDatabase = async () => {
         .connect(
             `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@devtaskmanagercluster.6nv9vip.mongodb.net/?retryWrites=true&w=majority&appName=DevTaskManagerCluster`
         )
-        .then(() => console.log('Connected'));
+        .then(() => console.log('Youre Connected'));
 };
 
 module.exports = connectToDatabase;
