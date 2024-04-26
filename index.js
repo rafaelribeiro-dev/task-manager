@@ -32,4 +32,12 @@ app.post('/tasks', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
+app.delete('/tasks/:id', async (req, res) => {
+    const taskId = req.params.id;
+
+    const deletedTask = await TaskModel.findByIdAndDelete(taskId);
+
+    res.status(200).send(deletedTask);
+});
 app.listen(8000, () => console.log('Listen on port 8000'));
